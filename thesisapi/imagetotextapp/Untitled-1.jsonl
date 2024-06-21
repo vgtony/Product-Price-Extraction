@@ -1,0 +1,66 @@
+// {
+//     "extractionId": "-O-9cEXgvSKGLfyMPmvW",
+//     "batchId": "rYvGAqwk4kbS0OHJl4AzyuC3V", 
+//     "files": [{"fileId": "-O-9cNgM1RlhqodVy11Y",
+//      "fileName": "88ed59b6-a605-4c30-a02c-c071d96d25ba.jpg",
+//       "status": "processed", 
+//       "result": {
+//         "grand_total": "7.31",
+//          "items": [{
+//             "name": "MONSTER EN",
+//              "quantity": "1",
+//               "total_price": "1.75",
+//                "unit_price": "1.75"},
+//                 {
+//                     "name": "BANOFFEE 1",
+//                      "quantity": "1",
+//                       "total_price": "2.80"
+//                       }]}}],
+//                        "merchant": 
+//                        {
+//                         "merchant_address": "ΓΡ. ΛΑΜΠΡΑΚΗ 307 & ΜΗΔΕΙΑΣ 2 NIKAIA 18451", 
+//                         "merchant_name": "TWENTY FOUR SHOPEN A.E.", 
+//                         "merchant_tax_id": "997800850"
+//                     }, 
+//                         "receipt_date": "2024-04-06", 
+//                         "receipt_id": "22150", 
+//                         "total_tax_amount": "0.96"
+//                     }
+
+
+{
+    "extractionId": "-O-9cEXgvSKGLfyMPmvW",
+    "batchId": "rYvGAqwk4kbS0OHJl4AzyuC3V",
+    "files": [
+      {
+        "fileId": "-O-9cNgM1RlhqodVy11Y",
+        "fileName": "88ed59b6-a605-4c30-a02c-c071d96d25ba.jpg",
+        "status": "processed",
+        "result": {
+          "grand_total": "7.31",
+          "items": [
+            {
+              "name": "MONSTER EN",
+              "quantity": "1",
+              "total_price": "1.75",
+              "unit_price": "1.75"
+            },
+            {
+              "name": "BANOFFEE 1",
+              "quantity": "1",
+              "total_price": "2.80",
+              "unit_price": "2.80"
+            }
+          ]
+        },
+        "merchant": {
+          "merchant_address": "ΓΡ. ΛΑΜΠΡΑΚΗ 307 & ΜΗΔΕΙΑΣ 2 NIKAIA 18451",
+          "merchant_name": "TWENTY FOUR SHOPEN A.E.",
+          "merchant_tax_id": "997800850"
+        },
+        "receipt_date": "2024-04-06",
+        "receipt_id": "22150",
+        "total_tax_amount": "0.96"
+      }
+    ]
+  }
