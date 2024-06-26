@@ -265,9 +265,9 @@ class AddBatchResult(APIView):
             print(response_data)
             serializerFinal = ExtractionSerializer(data=response_data)
             if serializerFinal.is_valid():
-                print("auto einai to Final", serializerFinal.data)
+                print("auto einai to Final", serializerFinal.validated_data)
 
-                # serializerFinal.save
+                serializerFinal.save()
 
                 return Response(serializerFinal.data, status=status.HTTP_201_CREATED)
             else:
