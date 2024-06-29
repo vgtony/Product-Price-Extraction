@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import JSONField
 
 # Create your models here.
 
@@ -113,19 +114,20 @@ class Item(models.Model):
 
 
 class Result(models.Model):
-    grand_total = models.CharField(max_length=255)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2)
     items = models.ManyToManyField(Item)
+    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
+    receipt_date = models.DateField()
+    receipt_id = models.CharField(max_length=100)
+    total_tax_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class File(models.Model):
-    fileId = models.CharField(max_length=255)
+    fileId = models.CharField(max_length=100)
     fileName = models.CharField(max_length=255)
-    status = models.CharField(max_length=255)
+    status = models.CharField(max_length=100)
     result = models.OneToOneField(Result, on_delete=models.CASCADE)
-    merchant = models.ForeignKey(Merchant, on_delete=models.CASCADE)
-    receipt_date = models.CharField(max_length=255)
-    receipt_id = models.CharField(max_length=255)
-    total_tax_amount = models.CharField(max_length=255)
+    url = models.CharField(max_length=2048)
 
 
 class Extraction(models.Model):

@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from imagetotextapp import views
-from imagetotextapp.views import AddBatchResult, ImageUploadView, ImageListView, CreateExtractionView, UploadFilesView, CreateExtractionModelViewSet, UploadFilesModelViewSet
+from imagetotextapp.views import AddBatchResult, ImageUploadView, ImageListView, CreateExtractionView, ItemListView, UploadFilesView, CreateExtractionModelViewSet, UploadFilesModelViewSet
 
 
 router = routers.DefaultRouter()
@@ -25,8 +25,7 @@ urlpatterns = [
     path('upload-files/', UploadFilesView.as_view(), name='upload-files'),
     path('get-batch-results/', AddBatchResult.as_view(),
          name='get-batch-results'),
-
-
+    path('items/', ItemListView.as_view(), name='item-list'),
 
     # path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

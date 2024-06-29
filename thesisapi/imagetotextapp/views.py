@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import permissions, viewsets, generics
 from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import AddBatchResultSerializer, ExtractionSerializer, GroupSerializer, TextDataSerializer, UploadResponseSerializer, UserSerializer, ImageUploadSerializer, ExtractionResponseSerializer
+from .serializers import AddBatchResultSerializer, ExtractionSerializer, GroupSerializer, ItemSerializer, TextDataSerializer, UploadResponseSerializer, UserSerializer, ImageUploadSerializer, ExtractionResponseSerializer
 from .models import TextData, ImageUpload, ExtractionResponse, UploadResponse, Item
 from rest_framework import status
 from rest_framework.response import Response
@@ -275,3 +275,14 @@ class AddBatchResult(APIView):
 
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ItemListView(APIView):
+    """
+    View to list all items in the database.
+    """
+
+    def get(self, request, format=None):
+        items = Item.objects.all()
+        serializer = ItemSerializer(items, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
