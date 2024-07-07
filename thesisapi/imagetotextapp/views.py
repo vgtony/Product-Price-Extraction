@@ -1,14 +1,10 @@
-from django.contrib.auth.models import Group, User
-from rest_framework import permissions, viewsets, generics
-from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import AddBatchResultSerializer, ExtractionSerializer, GroupSerializer, ItemSerializer, TextDataSerializer, UploadResponseSerializer, UserSerializer, ImageUploadSerializer, ExtractionResponseSerializer
-from .models import TextData, ImageUpload, ExtractionResponse, UploadResponse, Item
+from rest_framework import viewsets, generics
+from .serializers import AddBatchResultSerializer, ExtractionSerializer, ItemSerializer, UploadResponseSerializer, ImageUploadSerializer, ExtractionResponseSerializer
+from .models import ImageUpload, ExtractionResponse, UploadResponse, Item
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 import requests
-import mimetypes
 from dotenv import load_dotenv
 import os
 
@@ -16,86 +12,15 @@ import os
 load_dotenv()
 
 
-class UserViewSet(viewsets.ModelViewSet):
-
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-
-    queryset = Group.objects.all().order_by('name')
-    serializer_class = GroupSerializer
-    # permission_classes = [permissions.IsAuthenticated]
-
-
-class TextDataViewSet(viewsets.ModelViewSet):
-    queryset = TextData.objects.all()  # Queryset for listing data (if applicable)
-    serializer_class = TextDataSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-class ImageUploadView(generics.CreateAPIView):
-    queryset = ImageUpload.objects.all()
-    serializer_class = ImageUploadSerializer
-    parser_classes = (MultiPartParser, FormParser)
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 class ImageListView(generics.ListAPIView):
     queryset = ImageUpload.objects.all()
     serializer_class = ImageUploadSerializer
 
 
-# class CreateExtractionView(APIView):
-
-#     def post(self, request, *args, **kwargs):
-#         token = request.headers.get("Authorization")
-#         extraction_details = request.data.get("extractionDetails")
-
-#         if not token:
-#             return Response({"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
-
-#         if not extraction_details:
-#             return Response({"error": "Extraction details are required"}, status=status.HTTP_400_BAD_REQUEST)
-
-#         url = "https://api.extracta.ai/api/v1/createExtraction"
-#         headers = {"Content-Type": "application/json",
-#                    "Authorization": token}
-
-#         try:
-#             response = requests.post(
-#                 url, json={"extractionDetails": extraction_details}, headers=headers
-#             )
-#             response.raise_for_status()
-#             response_data = response.json()
-
-#             ExtractionResponse.objects.create(
-#                 status=response_data["status"],
-#                 created_at=response_data["createdAt"],
-#                 extraction_id=response_data["extractionId"]
-#             )
-#             return Response(response_data, status=status.HTTP_201_CREATED)
-#         except requests.RequestException as e:
-#             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
 class CreateExtractionView(APIView):
 
     def post(self, request, *args, **kwargs):
-        token = request.headers.get("Authorization")
+        token = os.getenv('API_KEY')
         extraction_details = request.data.get("extractionDetails")
 
         if not token:
@@ -105,7 +30,8 @@ class CreateExtractionView(APIView):
             return Response({"error": "Extraction details are required"}, status=status.HTTP_400_BAD_REQUEST)
 
         url = "https://api.extracta.ai/api/v1/createExtraction"
-        headers = {"Content-Type": "application/json", "Authorization": token}
+        headers = {"Content-Type": "application/json",
+                   "Authorization": f"Bearer {token}"}
 
         try:
             response = requests.post(
