@@ -13,9 +13,9 @@ class ExtractionResponse(models.Model):
 
 
 class UploadResponse(models.Model):
-    status = models.CharField(max_length=100)
-    extraction_id = models.CharField(max_length=100)
-    batch_id = models.CharField(max_length=100)
+    # status = models.CharField(max_length=100)
+    extractionId = models.CharField(max_length=100)
+    # batchId = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

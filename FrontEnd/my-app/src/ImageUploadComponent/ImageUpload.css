@@ -1,0 +1,31 @@
+.item-row {
+    display: flex;
+    justify-content: flex-start;
+  }
+  
+  .item-content {
+    border: 1px solid #ccc; /* Move the border to the inner container */
+    display: flex;
+    align-items: center; /* Aligns items vertically in the center */
+    padding: 2px;
+  }
+
+  .item-name, .item-details {
+    flex: 0 1 auto;
+    margin-right: 20px;
+  }
+  
+  .item-name p, .item-details p {
+    margin: 0;
+  }
+  
+  .item-details {
+    text-align: right; /* Aligns quantity and unit price to the right */
+  }
+
+  #items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 10px;
+  }
