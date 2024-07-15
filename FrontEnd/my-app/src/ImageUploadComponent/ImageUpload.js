@@ -14,7 +14,7 @@ function ImageUpload() {
         const formData = new FormData();
 
         for (let i = 0; i < selectedFiles.length; i++) {
-            formData.append('files', selectedFiles[i]);
+            formData.append('file', selectedFiles[i]);
         }
         // console.log('files', formData.getAll('files'));
         // console.log('selectedFiles', selectedFiles);
@@ -27,17 +27,11 @@ function ImageUpload() {
         console.log('formData', formData);
 
         // formData.append('batchId', 'rYvGAqwk4kbS0OHJl4AzyuC3V');
-        fetch('http://localhost:8000/upload-files/', {
+        fetch('http://localhost:8000/files-upload/', {
             method: 'POST',
             body: formData
         })
-        .then(response => {
-          console.log(response.status, response.statusText);
-
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }        
-        })
+        .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error('Error:', error));
     };

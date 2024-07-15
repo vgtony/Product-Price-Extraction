@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AddBatchResultModel, Extraction, File, Merchant, Result, ImageUpload, Item, ExtractionResponse, UploadResponse
+from .models import AddBatchResultModel, Extraction, File, Merchant, Result, ImageUpload, Item, ExtractionResponse, UploadResponse, UploadedFile
 
 
 class ImageUploadSerializer(serializers.ModelSerializer):
@@ -115,3 +115,9 @@ class ExtractionSerializer(serializers.ModelSerializer):
     #                             extraction=extraction)
 
     #     return extraction
+
+
+class UploadedFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UploadedFile
+        fields = ['file', 'extractionId']

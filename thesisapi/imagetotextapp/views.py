@@ -1,6 +1,6 @@
 from rest_framework import viewsets, generics
-from .serializers import AddBatchResultSerializer, ExtractionSerializer, ItemSerializer, UploadResponseSerializer, ImageUploadSerializer, ExtractionResponseSerializer
-from .models import ImageUpload, ExtractionResponse, UploadResponse, Item
+from .serializers import AddBatchResultSerializer, ExtractionSerializer, ItemSerializer, UploadResponseSerializer, ImageUploadSerializer, ExtractionResponseSerializer, UploadedFileSerializer
+from .models import ImageUpload, ExtractionResponse, UploadResponse, Item, UploadedFile
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -198,3 +198,18 @@ class ItemListView(APIView):
         items = Item.objects.all()
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class FileUploadView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = UploadedFileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)
+
+
+class FileUploadViewSet(viewsets.ModelViewSet):
+    queryset = UploadedFile.objects.all()
+    serializer_class = UploadedFileSerializer

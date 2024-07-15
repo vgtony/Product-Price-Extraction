@@ -58,3 +58,8 @@ class Extraction(models.Model):
     extractionId = models.CharField(max_length=255)
     batchId = models.CharField(max_length=255)
     files = models.ManyToManyField(File)
+
+
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='uploaded_files/')
+    extractionId = models.CharField(max_length=255)
