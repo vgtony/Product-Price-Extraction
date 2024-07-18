@@ -15,7 +15,7 @@ class ExtractionResponse(models.Model):
 class UploadResponse(models.Model):
     # status = models.CharField(max_length=100)
     extractionId = models.CharField(max_length=100)
-    # batchId = models.CharField(max_length=100)
+    batchId = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -61,5 +61,6 @@ class Extraction(models.Model):
 
 
 class UploadedFile(models.Model):
-    file = models.FileField(upload_to='uploaded_files/')
+    files = models.FileField()
     extractionId = models.CharField(max_length=255)
+    batchId = models.CharField(max_length=255)

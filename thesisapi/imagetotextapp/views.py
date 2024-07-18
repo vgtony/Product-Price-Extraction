@@ -1,3 +1,4 @@
+import mimetypes
 from rest_framework import viewsets, generics
 from .serializers import AddBatchResultSerializer, ExtractionSerializer, ItemSerializer, UploadResponseSerializer, ImageUploadSerializer, ExtractionResponseSerializer, UploadedFileSerializer
 from .models import ImageUpload, ExtractionResponse, UploadResponse, Item, UploadedFile
@@ -57,18 +58,19 @@ class UploadFilesView(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        serializer = UploadResponseSerializer(data=request.data)
+        serializer = UploadedFileSerializer(data=request.data)
 
         token = os.getenv('API_KEY')
 
         if serializer.is_valid():
             extraction_id = request.data.get("extractionId")
+            batch_id = request.data.get("batchId")
             files = request.FILES.getlist("files")
-
             print('files', files)
 
             serializer.save()
             print('serializer', serializer.data)
+            # files = serializer.data['files']
 
             if not token:
                 return Response({"error": "Token is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -81,8 +83,8 @@ class UploadFilesView(APIView):
 
             url = "https://api.extracta.ai/api/v1/uploadFiles"
             headers = {
-                "Content-Type": "multipart/form-data",
-                "Authorization": token
+                # "Content-Type": "multipart/form-data",
+                "Authorization": f"Bearer {token}"
             }
 
             file_streams = [
@@ -91,38 +93,48 @@ class UploadFilesView(APIView):
                     (
                         file.name,
                         file,
-                        file.content_type,
+                        file.content_type
                     ),
                 )
                 for file in files
             ]
+
             print('file_streams', file_streams)
 
-            payload = {"extractionId": extraction_id}
+            for file in files:
+                file.seek(0)
+
+            payload = {
+                "extractionId": extraction_id,
+            }
+            if batch_id is not None:
+                payload["batchId"] = batch_id
 
             try:
                 response = requests.post(
-                    url, files=files.file, data=payload, headers=headers)
+                    url, files=file_streams, data=payload, headers=headers)
                 response.raise_for_status()
+                print('response', response)
 
                 response_data = response.json()
 
-                UploadResponse.objects.create(
-                    status=response_data["status"],
-                    extraction_id=response_data["extractionId"],
-                    batch_id=response_data.get("batchId")
-                )
+                print('response_data', response_data)
+
+                # UploadResponse.objects.create(
+                #     # status=response_data["status"],
+                #     extraction_id=response_data["extractionId"],
+                #     batch_id=response_data.get("batchId")
+                # )
 
                 return Response(response_data, status=status.HTTP_201_CREATED)
-            except requests.HTTPError as e:
-                error_message = response.json() if response.content else str(e)
-                return Response({"error": error_message}, status=response.status_code)
             except requests.RequestException as e:
+                # Handle other requests exceptions
+                print(f"Failed to upload files: {e}")
                 return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                # Handle other possible exceptions
+                print(f"An unexpected error occurred: {e}")
+            return Response({"error": "An unexpected error occurred"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CreateExtractionModelViewSet (viewsets.ModelViewSet):

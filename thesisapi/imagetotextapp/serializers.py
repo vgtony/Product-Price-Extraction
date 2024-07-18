@@ -120,4 +120,4 @@ class ExtractionSerializer(serializers.ModelSerializer):
 class UploadedFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UploadedFile
-        fields = ['file', 'extractionId']
+        fields = ['files', 'extractionId', 'batchId']
