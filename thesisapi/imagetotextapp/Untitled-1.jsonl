@@ -64,3 +64,19 @@
       }
     ]
   }
+
+
+
+  {
+    "status": "uploaded",
+    "extractionId": "-OHPT_wukv2tF2Em29NV",
+    "batchId": "y75XJYyEnHbwKu65ZWmyS9gNS",
+    "files": [
+      {
+        "fileId": "-OHPTa8vhkIGxWdjjiOO",
+        "fileName": "40c643ae-2cef-47e6-b24e-0146d4341976_4Ahvdea.jpg",
+        "numberrOfPages": 1,
+        "url": "https://storage.googleapis.com/ocerizare-ro.appspot.com/extractions/ROu9mzgV4jS4pize8MmfFADO6662/y75XJYyEnHbwKu65ZWmyS9gNS/qOGAHEeJcn_%25_40c643ae-2cef-47e6-b24e-0146d4341976_4Ahvdea.jpg?GoogleAccessId=firebase-adminsdk-j1pqz%40ocerizare-ro.iam.gserviceaccount.com&Expires=16730323200&Signature=OhymhlVaajGKNlimAYFbZNOKSulvDu%2F2EUxJACko1IWiCkVpY%2BUc4fXPQYhvB7GBKyL9RrFGwM23b%2FGg%2FjXcmbUx%2Fc9vkNuIA8y0F4gNHj2TIRMBekdTH2wjneut3iMBNpdFG2tjTEatq%2FkrH4Ia4Ed0fOtbp6drmbdfkv2FE5sBnDlRscwi6iZn%2BfrCISQ4hYr9iVh%2BbgyoybZyhD0%2BVFBRaN3KzLY%2F6wrmThOC6fgsn20UF4oUgbivWaRD9C5av1kAnwVQi8FxZHSE%2FfT08SN2457ZlQlMBaWzgjV2xu9C0KTm1YSvnxx%2FI6MaEjMvXu9jogvpaP18EATX%2FmrHSQ%3D%3D"
+      }
+    ]
+  }
