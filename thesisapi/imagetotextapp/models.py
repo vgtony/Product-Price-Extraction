@@ -3,6 +3,8 @@ from django.db import models
 
 class Extraction(models.Model):
     image = models.ImageField(upload_to='extraction-images/')
+    extraction_id = models.CharField(max_length=255, blank=True, null=True)
+    batch_id = models.CharField(max_length=255, blank=True, null=True)  
     merchant = models.ForeignKey(
         'Merchant', on_delete=models.CASCADE, blank=True, null=True)
 
@@ -11,6 +13,7 @@ class ExtractionItem(models.Model):
     extraction = models.ForeignKey('Extraction', on_delete=models.CASCADE)
     product_name = models.CharField(max_length=255)
     product_price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.IntegerField(blank=True, null=True)
 
 
 class Merchant(models.Model):

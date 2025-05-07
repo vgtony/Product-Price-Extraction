@@ -1,0 +1,17 @@
+{
+  "name": "thesis-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "conda activate base && cd thesisapi && python manage.py runserver",
+    "client": "cd FrontEnd/my-app && npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@webhooksite/cli": "^0.2.4",
+    "concurrently": "^9.1.2"
+  }
+}

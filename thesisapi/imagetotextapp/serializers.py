@@ -5,7 +5,18 @@ from .models import Extraction
 class ExtractionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extraction
-        fields = ['image']
+        fields = ['image', 'extraction_id', 'batch_id']
+
+class ExtractionResultWebhook(serializers.Serializer):
+    extractionId = serializers.CharField(max_length=255)
+    batchId = serializers.CharField(max_length=255, required=False)
+    files = serializers.ListField(
+        child=serializers.DictField(), required=False)
+
+class ExtractionWebhook(serializers.Serializer):
+    result = serializers.ListField(
+        child=ExtractionResultWebhook(), required=False)
+
 
 # class ImageUploadSerializer(serializers.ModelSerializer):
 #     class Meta:

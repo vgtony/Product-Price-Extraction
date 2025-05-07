@@ -1,102 +1,100 @@
-import React, { useState } from 'react';
-import './ImageUpload.css';
+import React, { useState } from "react";
+import "./ImageUpload.css";
 
 function ImageUpload() {
-    const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  // const [extractionId, setExtractionId] = useState(null);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-    const handleFileChange = (event) => {
-        setSelectedFiles(event.target.files);
-    };
+  const handleFileChange = (event) => {
+    setSelectedFiles(event.target.files);
+  };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
 
-        const formData = new FormData();
+    const formData = new FormData();
 
-        for (let i = 0; i < selectedFiles.length; i++) {
-            formData.append('file', selectedFiles[i]);
-        }
-        // console.log('files', formData.getAll('files'));
-        // console.log('selectedFiles', selectedFiles);
+    // Append the image file
+    if (selectedFiles.length > 0) {
+      formData.append("image", selectedFiles[0]);
+    }
 
-        formData.append('extractionId', '-O-9cEXgvSKGLfyMPmvW');
+    try {
+      // Send to your Django API endpoint
+      const response = await fetch("http://127.0.0.1:8000/extractions/", {
+        method: "POST",
+        body: formData,
+      });
 
-        // await new Promise(resolve => setTimeout(resolve, 5000));
+      console.log(response);
 
-
-        console.log('formData', formData);
-
-        // formData.append('batchId', 'rYvGAqwk4kbS0OHJl4AzyuC3V');
-        fetch('http://localhost:8000/files-upload/', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Error:', error));
-    };
-
-    async function postAddBatchResult(data) {
-        const url = 'http://localhost:8000/get-batch-results/';
-      
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            //   'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-          });
-      
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-      
-          const result = await response.json();
-          console.log('Success:', result);
-          console.log('AAAA', result.files)
-
-          const itemsContainer = document.getElementById('items-container');
-          result.items.forEach(item => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'item-row';
-            itemDiv.innerHTML = `
-            <div class="item-content">
-              <div class="item-name"><p>Name: ${item.name}</p></div>
-              <div class="item-details">
-                <p>Quantity: ${item.quantity}</p>
-                <p>Unit Price: ${item.unit_price}</p>
-              </div>
-            </div>
-            `;
-            itemsContainer.appendChild(itemDiv);
-          });
-
-          return result;
-        } catch (error) {
-          console.error('Error:', error);
-        }
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
-      // Example usage:
-      const data = {
-        extraction_id: '-O-9cEXgvSKGLfyMPmvW',
-        batch_id: 'rYvGAqwk4kbS0OHJl4AzyuC3V'
-      };
-      
-    //   postAddBatchResult(data);
 
-    return (
-        <div><h1>Upload Images</h1>
-            <form onSubmit={handleSubmit}>
-                <input type="file" multiple onChange={handleFileChange} />
-                <button type="submit">Upload</button>
-                <button type="button" onClick={() => postAddBatchResult(data)}>Post Batch Result</button>
-                <div id="items-container"></div>
-            </form>
+      const data = await response.json();
+      console.log("Upload successful:", data);
+      setResults(data);
+      // setExtractionId(data.extractionId);
+
+      // After successful upload, you can check results
+      // if (data.extractionId) {
+      //   await checkResults(data.extractionId);
+      // }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // const checkResults = async (id) => {
+  //   // Wait a bit for processing to complete
+  //   await new Promise((resolve) => setTimeout(resolve, 5000));
+
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:8000/extractions/${id}/results/`,
+  //       {
+  //         method: "GET",
+  //       }
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     console.log("Results:", data);
+  //     setResults(data);
+  //   } catch (error) {
+  //     console.error("Error fetching results:", error);
+  //   }
+  // };
+
+  return (
+    <div>
+      <h1>Upload Images</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="file" onChange={handleFileChange} accept="image/*" />
+        <button type="submit" disabled={loading || !selectedFiles.length}>
+          {loading ? "Processing..." : "Upload and Process"}
+        </button>
+      </form>
+
+      {loading && <p>Processing your image...</p>}
+
+      {results && (
+        <div className="results-container">
+          <h2>Results</h2>
+          <pre>{JSON.stringify(results, null, 2)}</pre>
         </div>
-    );
+      )}
+    </div>
+  );
 }
 
 export default ImageUpload;

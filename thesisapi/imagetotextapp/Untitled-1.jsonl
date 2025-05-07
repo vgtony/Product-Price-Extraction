@@ -27,8 +27,8 @@
 //                         "total_tax_amount": "0.96"
 //                     }
 
-
-{
+// get_results()
+{ 
     "extractionId": "-O-9cEXgvSKGLfyMPmvW",
     "batchId": "rYvGAqwk4kbS0OHJl4AzyuC3V",
     "files": [
@@ -66,8 +66,8 @@
   }
 
 
-
-  {
+//send_image_to_api()
+  { 
     "status": "uploaded",
     "extractionId": "-OHPT_wukv2tF2Em29NV",
     "batchId": "y75XJYyEnHbwKu65ZWmyS9gNS",
@@ -77,6 +77,72 @@
         "fileName": "40c643ae-2cef-47e6-b24e-0146d4341976_4Ahvdea.jpg",
         "numberrOfPages": 1,
         "url": "https://storage.googleapis.com/ocerizare-ro.appspot.com/extractions/ROu9mzgV4jS4pize8MmfFADO6662/y75XJYyEnHbwKu65ZWmyS9gNS/qOGAHEeJcn_%25_40c643ae-2cef-47e6-b24e-0146d4341976_4Ahvdea.jpg?GoogleAccessId=firebase-adminsdk-j1pqz%40ocerizare-ro.iam.gserviceaccount.com&Expires=16730323200&Signature=OhymhlVaajGKNlimAYFbZNOKSulvDu%2F2EUxJACko1IWiCkVpY%2BUc4fXPQYhvB7GBKyL9RrFGwM23b%2FGg%2FjXcmbUx%2Fc9vkNuIA8y0F4gNHj2TIRMBekdTH2wjneut3iMBNpdFG2tjTEatq%2FkrH4Ia4Ed0fOtbp6drmbdfkv2FE5sBnDlRscwi6iZn%2BfrCISQ4hYr9iVh%2BbgyoybZyhD0%2BVFBRaN3KzLY%2F6wrmThOC6fgsn20UF4oUgbivWaRD9C5av1kAnwVQi8FxZHSE%2FfT08SN2457ZlQlMBaWzgjV2xu9C0KTm1YSvnxx%2FI6MaEjMvXu9jogvpaP18EATX%2FmrHSQ%3D%3D"
+      }
+    ]
+  }
+
+// webhook data
+  {
+    "result": [
+      {
+        "extractionId": "-OPgf2b7WcvZQ5CZnvUL",
+        "batchId": "ERuteeo60ZobbQFIa34ISII4o",
+        "fileId": "-OPgf2nZowCfbI-GRf8m",
+        "fileName": "40c643ae-2cef-47e6-b24e-0146d4341976_noWYdKg.jpg",
+        "status": "processed",
+        "errorMessage": null,
+        "documentInfo": {
+          "pages": [
+            {
+              "height": 2048,
+              "pageNumber": 1,
+              "unit": "pixel",
+              "width": 1536
+            }
+          ],
+          "totalPages": 1
+        },
+        "result": {
+          "grand_total": "13.16",
+          "items": [
+            {
+              "name": "SEPTONA ΜΩΡ/ΛΑ",
+              "quantity": "1",
+              "total_price": "2.70",
+              "unit_price": "2.70"
+            },
+            {
+              "name": "KITBIS ΜΠΙΣΚΟΤΑ",
+              "quantity": "2",
+              "total_price": "4.18",
+              "unit_price": "2.09"
+            },
+            {
+              "name": "ΔΕΡΜΙΣΗΣ ΜΟΥΣΤΟΚΟΥ",
+              "quantity": "1",
+              "total_price": "0.99",
+              "unit_price": "0.99"
+            },
+            {
+              "name": "COCA COLA LIGHT 4X",
+              "quantity": "1",
+              "total_price": "4.24",
+              "unit_price": "4.24"
+            },
+            {
+              "name": "EL SABOR NACHO",
+              "quantity": "1",
+              "total_price": "2.04",
+              "unit_price": "2.04"
+            }
+          ],
+          "merchant": {
+            "merchant_address": "Γρηγορίου Λαμπράκη 402",
+            "merchant_name": "Α-Β ΒΑΣΙΛΟΠΟΥΛΟΣ Μ.Α.Ε.",
+            "merchant_tax_id": "ΑΦΜ: 094025817"
+          }
+        },
+        "url": "https://storage.googleapis.com/ocerizare-ro.appspot.com/extractions/ROu9mzgV4jS4pize8MmfFADO6662/ERuteeo60ZobbQFIa34ISII4o/lPueNKc8Ex_%25_40c643ae-2cef-47e6-b24e-0146d4341976_noWYdKg.jpg?GoogleAccessId=firebase-adminsdk-j1pqz%40ocerizare-ro.iam.gserviceaccount.com&Expires=16730323200&Signature=aF5xC8v2AGVz%2BfU8ev7hMpjwB6lcL5eIBx1rm5gUUnEZZlp1fOKIbanv3%2B%2BGvV6PT07rjZ5nILTlDpSxHx%2BKA4zoDGUNSdxxb6iMTFRZ8%2FTqRL%2BqAwwGLfCE1s80WV%2BmElEBLuWj9P1JNUGwwvFDNto%2B20%2FpX2VBQ2tRYXayLW9C5kaSSf5ekZLCUAWamTVcVGSirJMdWHI0ueSNqGP%2BOGPjwx0p1DksJK1TbUtgD6hrmLlsZQwB5U3DXQvMA9upF3VXdfiYlw3eJcj23%2Bl0NIS%2F2WpsFw7T%2BXIOBywzm4cSISuGlA9LTVxDw1OCYqkZG2DOhQnLAiLTEdj6lZPlLw%3D%3D"
       }
     ]
   }

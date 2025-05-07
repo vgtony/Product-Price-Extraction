@@ -148,15 +148,19 @@ def send_image_to_api(extraction):
     # upload file
     upload_file_data = upload_file(extraction_data['extractionId'], extraction)
     # get results
-    time.sleep(5)
-    results = get_results(
-        upload_file_data['extractionId'], upload_file_data['batchId'])
-    return results
+    # time.sleep(60)
+    # results = get_results(
+    #     upload_file_data['extractionId'], upload_file_data['batchId'])
+    return upload_file_data
 
 
 def update_extraction_data(extraction, extraction_data):
     if not extraction_data:
         print("Error: extraction_data is None")
         return
-    extraction.extractionId = extraction_data['extractionId']
+    extraction.extractionId = extraction_data.get('extractionId', None)
+    extraction.batchId = extraction_data.get('batchId', None)
+    extraction.results = extraction_data.get('results', None)
     extraction.save()
+    print('extraction', extraction)
+    return extraction
