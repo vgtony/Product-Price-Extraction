@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from .serializers import ExtractionSerializer, ExtractionWebhook
 from .models import Extraction, ExtractionItem
 from .utils import send_image_to_api, update_extraction_data
+import json
 
 class ExtractionsViewSet(viewsets.ModelViewSet):
     queryset = Extraction.objects.all()
@@ -14,14 +15,17 @@ class ExtractionsViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             extraction = serializer.save()
             extraction_data = send_image_to_api(extraction)
-            # updated_extraction = update_extraction_data(extraction, extraction_data)
             extraction.extraction_id = extraction_data.get('extractionId', None)
             extraction.batch_id = extraction_data.get('batchId', None)
-            extraction = extraction.save()
+            extraction.save()
             
+            updated_extraction = update_extraction_data(extraction, extraction_data)
+            
+            serializer = self.get_serializer(updated_extraction)
+
             print('extraction', extraction)
 
-            return Response(data=extraction, status=201)
+            return Response(data=serializer.data, status=201)
         else:
             return Response(serializer.errors, status=400)
 
@@ -30,7 +34,11 @@ class ExtractionsViewSet(viewsets.ModelViewSet):
         """
         Update the results from the webhook data
         """
-        for result in request.data.get("result", []):
+        print('webhook', request.data)
+        result_string = request.data.get('result')
+        result_list = json.loads(result_string)
+        print('result_list', result_list)
+        for result in result_list:
             status = result.get("status")
             if status == "processed":
                 extraction_id = result.get("extractionId")
@@ -44,7 +52,9 @@ class ExtractionsViewSet(viewsets.ModelViewSet):
                         product_price=item['unit_price'],
                         quantity=item['quantity'],
                     )
-                return Response(data=result, status=200)
+                serializer = self.get_serializer(extraction)
+
+                return Response(data=serializer.data, status=200)
                 # Return whatever data is stored in your Extraction model
                 return Response({
                     'extractionId': extraction.extractionId,

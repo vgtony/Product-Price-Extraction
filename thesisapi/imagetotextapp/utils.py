@@ -157,10 +157,42 @@ def send_image_to_api(extraction):
 def update_extraction_data(extraction, extraction_data):
     if not extraction_data:
         print("Error: extraction_data is None")
-        return
-    extraction.extractionId = extraction_data.get('extractionId', None)
-    extraction.batchId = extraction_data.get('batchId', None)
-    extraction.results = extraction_data.get('results', None)
+        return None
+    
+    # Save basic extraction details
+    extraction.extraction_id = extraction_data.get('extractionId')
+    extraction.batch_id = extraction_data.get('batchId')
     extraction.save()
-    print('extraction', extraction)
+    
+    # Check if we have files with results
+    if 'files' in extraction_data and extraction_data['files']:
+        file_data = extraction_data['files'][0]  # Get the first file
+        
+        # Check if the file has results
+        if 'result' in file_data:
+            result = file_data['result']
+            
+            # Create merchant if it exists in results
+            if 'merchant' in result:
+                merchant_data = result['merchant']
+                merchant, created = Merchant.objects.get_or_create(
+                    merchant_name=merchant_data.get('merchant_name', ''),
+                    defaults={
+                        'merchant_address': merchant_data.get('merchant_address', ''),
+                        'merchant_tax_id': merchant_data.get('merchant_tax_id', '')
+                    }
+                )
+                extraction.merchant = merchant
+                extraction.save()
+            
+            # Create extraction items if they exist in results
+            if 'items' in result:
+                for item_data in result['items']:
+                    ExtractionItem.objects.create(
+                        extraction=extraction,
+                        product_name=item_data.get('name', ''),
+                        product_price=item_data.get('unit_price', 0),
+                        quantity=int(item_data.get('quantity', 0))
+                    )
+    
     return extraction

@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from .models import Extraction
+from .models import Extraction, ExtractionItem, Merchant
 
-
+class ExtractionItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ExtractionItem
+        fields = ['id', 'product_name', 'product_price', 'quantity']
+        
 class ExtractionSerializer(serializers.ModelSerializer):
+    items = ExtractionItemSerializer(source='extractionitem_set', many=True, read_only=True)
+    
     class Meta:
         model = Extraction
-        fields = ['image', 'extraction_id', 'batch_id']
+        fields = '__all__'
 
 class ExtractionResultWebhook(serializers.Serializer):
     extractionId = serializers.CharField(max_length=255)
@@ -14,9 +20,16 @@ class ExtractionResultWebhook(serializers.Serializer):
         child=serializers.DictField(), required=False)
 
 class ExtractionWebhook(serializers.Serializer):
+
     result = serializers.ListField(
         child=ExtractionResultWebhook(), required=False)
 
+
+
+class MerchantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Merchant
+        fields = ['id', 'merchant_name', 'merchant_address', 'merchant_tax_id']
 
 # class ImageUploadSerializer(serializers.ModelSerializer):
 #     class Meta:
